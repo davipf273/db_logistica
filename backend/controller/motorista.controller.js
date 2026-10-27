@@ -116,7 +116,29 @@ const atualizar = async (req,res)=>{
         if(valores.cnh){
             dadosAtualizados.cnh = CryptoJS.encrypt(valores.cnh,CHAVE_SECRETA).toString()
         }
+
+        await Motorista.update(dadosAtualizados, {where:{codMotorista:id}})
+        return res.status(200).json({message: 'Motorista atualizado com sucesso'})
     }catch(err){
-        
+        console.error('Erro ao atualizar o motorista',err)
+        return res.status(500).json({message:'Erro ao atualizar o motorista'})
     }
 }
+
+const apagar = async (req,res)=>{
+    const id = req.params.id
+    try{
+        const motorista = await Motorista.findByPk(id)
+        if(!motorista){
+            return res.status(404).json({message: 'motorista não encontrado'})
+        }
+        
+        await Motorista.destroy({where: {codMotorista:id}})
+        return res.status(200).json({message: 'Motorista excluido com sucesso'})
+    }catch(err){
+        console.error('Erro ao apagar motorista',err)
+        return res.status(500).json({message: 'Erro ao apagar motorista'})
+    }
+}
+
+module.exports = {cadastrar, consultar, listar, atualizar, apagar}
