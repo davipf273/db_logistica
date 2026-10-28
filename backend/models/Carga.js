@@ -1,38 +1,38 @@
-const {DataTypes} = require('sequelize')
-const db = require('../db/conn')
+const { DataTypes } = require('sequelize')
+const db = require("../db/conn")
 
 const Carga = db.define('carga',{
-    codCarga:{
+    codCarga: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    descricao:{
-        type: DataTypes.STRING(100),
-        allowNull:false
+    descricao: {
+        type: DataTypes.STRING(50),
+        allowNull: false
     },
-    peso:{
+    peso: {
         type: DataTypes.DECIMAL(10,2),
-        allowNull:false
+        allowNull: false
     },
-    volume:{
+    volume: {
         type: DataTypes.DECIMAL(10,2),
-        allowNull:false
+        allowNull: false
     },
-    codigoRastreio:{
-        type: DataTypes.STRING(100),
-        allowNull:false
+    codRastreio: {
+        type: DataTypes.INTEGER,
+        allowNull: false
     },
-    idMotorista:{
+    idMotorista: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references:{
-            model: 'motoristas',
-            key: 'codMotorista'
+            key: 'codMotorista',
+            model: 'motoristas'
         }
-    }
+    },
 },{
-    timestamps: false,
+    timestamps: false ,
     tableName: 'cargas'
 })
 

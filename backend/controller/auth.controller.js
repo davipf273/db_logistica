@@ -1,50 +1,48 @@
 const Funcionario = require('../models/Funcionario')
-const CryptoJS = require('crypto-js')
-const CHAVE_SECRETA = 'segredo'
+const CryptoJS = require("crypto-js");
+const CHAVE_SECRETA = 'LOW_KEY'
 
-const login = async (req,res)=>{
+const login = async (req,res) =>{
     const valores = req.body
 
-    if(!valores.email || !valores.senha){
-        return res.status(400).json({message:'Informe email e senha para realizar login'})
-    }
-
-    try{
+    try {
+        if(!valores.email || !valores.senha ){
+            return res.status(422).json({message: 'Preencha todos os campos!'})
+        }
+        
         const funcionario = await Funcionario.findOne({where: {email: valores.email}})
-
+        
         if(!funcionario){
-            return res.status(404).json({message: 'funcionario não encontrado'})
+            return res.status(400).json({message: 'Email ou senha incorreto!'})
         }
-
-        const bytes = CryptoJS.AES.decrypt(funcionario.senha, CHAVE_SECRETA)
-        const senhaBD = bytes.toString(CryptoJS.enc.Utf8)
-
-
-        if(valores.senha !== senhaBD){
-            return res.status(401).json({message: 'senha incorreta'})
+        
+        const bytes  = CryptoJS.AES.decrypt(funcionario.senha, CHAVE_SECRETA);
+        const senha = bytes.toString(CryptoJS.enc.Utf8);
+        
+        if(valores.senha !== senha){
+            return res.status(400).json({message: 'Email ou senha incorreto!'})
         }
-
-
-        const duasHorasEmMs = 2 * 60 * 60 * 1000
-        const tempoExpiraco = Date.now() + duasHorasEmMs
-
+        
+        const tempo = 180 * 60 * 1000
+        const expiraEm = tempo + Date.now()
+        
         const payload = {
-            codFuncionario: funcionario.codFuncionario,
+            idFuncionario: funcionario.codFuncionario,
             nome: funcionario.nome,
-            expiraEm: tempoExpiraco
+            expiraEm: expiraEm
         }
-
-        const token = CryptoJS.AES.encrypt(JSON.stringify(payload), CHAVE_SECRETA).toString()
-
+        
+        const token = CryptoJS.AES.encrypt(JSON.stringify(payload), CHAVE_SECRETA).toString();
+        
         return res.status(200).json({
-            message: 'login realizado com sucesso',
-            token:token,
+            message: 'Usuário logado com sucesso!!',
+            token: token,
             nome: funcionario.nome
         })
-    }catch(err){
-        console.error('Erro ao tentar fazer login',err)
-        return res.status(500).json({message:'Erro ao tentar fazer o login!'})
+    } catch (err) {
+        console.error(err)
+        return res.status(500).json({message: 'ocorreu um problema ao fazer login!'})
     }
 }
 
-module.exports = {login}
+module.exports = { login }

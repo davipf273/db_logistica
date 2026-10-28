@@ -1,9 +1,9 @@
-const  {Sequelize} = require('sequelize')
+const { Sequelize } = require("sequelize")
 
-const db = new Sequelize('db_logistica','root','senai',{
-    host:'localhost',
+const db = new Sequelize('db_logistica', 'joaoPedro' , 'Batatamaunu1253*',{
+    port: 3306,
     dialect: 'mysql',
-    port: 3306
-}) 
+    host: 'localhost'
+})
 
 module.exports = db

@@ -1,26 +1,27 @@
-const {DataTypes} = require('sequelize')
-const db = require('../db/conn')
+const { DataTypes } = require('sequelize')
+const db = require("../db/conn")
 
 const Funcionario = db.define('funcionario',{
-    codFuncionario:{
+    codFuncionario: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    nome:{
-        type: DataTypes.STRING(100),
-        allowNull:false
+    nome: {
+        type: DataTypes.STRING(50),
+        allowNull: false
     },
-    email:{
-        type: DataTypes.STRING(100),
-        allowNull:false
+    email: {
+        type: DataTypes.STRING(50),
+        allowNull: false,
+        unique: true
     },
-    senha:{
+    senha: {
         type: DataTypes.STRING(100),
-        allowNull:false
+        allowNull: false
     },
 },{
-    timestamps: false,
+    timestamps: false , 
     tableName: 'funcionarios'
 })
 

@@ -1,31 +1,29 @@
-const Funcionario = require('./Funcionario')
-const Motorista = require('./Motorista')
-const Carga = require('./Carga')
-const Entrega = require('./Entrega')
+const Carga = require("./Carga");
+const Entrega = require("./Entrega");
+const Motorista = require("./Motorista");
 
 Motorista.hasMany(Carga,{
     foreignKey: 'idMotorista',
-    as: 'cargaMotorista',
+    as: 'motoristaCarga',
     onDelete: 'CASCADE'
 })
 
 Carga.belongsTo(Motorista,{
     foreignKey: 'idMotorista',
-    as: 'motoristaCarga',
+    as: 'cargaMotorista',
     allowNull: false
 })
 
 Carga.hasMany(Entrega,{
     foreignKey: 'idCarga',
-    as: 'entregaCarga',
-    onDelete: 'CASCADE'
+    as: 'cargaEntrega',
+    allowNull: false
 })
 
 Entrega.belongsTo(Carga,{
     foreignKey: 'idCarga',
-    as:'cargaEntrega',
-    allowNull: false
+    as: 'entregaCarga',
+    onDelete: 'CASCADE'
 })
 
-
-module.exports = {Funcionario, Motorista, Carga, Entrega}
+module.exports = { Carga , Motorista , Entrega }

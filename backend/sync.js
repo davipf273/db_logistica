@@ -1,16 +1,17 @@
+const { Carga , Motorista , Entrega} = require('./models/rel')
+const Funcionario = require("./models/Funcionario") 
 const conn = require('./db/conn')
-const {Funcionario, Motorista, Carga, Entrega} = require('./models/rel')
 
-async function syncDataBase() {
-    try{
-        await conn.sync({force:true})
-        console.log('Tabelas Sincronizadas')
-    }catch(err){
-        console.error('Erro ao sincronizar as tabelas',err)
+async function sync() {
+    try {
+        await conn.sync({force: true})
+        console.log('fazendo a conexão com o banco')
+    } catch (err) {
+        console.error('ocorreu um problema ao sincronizar o banco!',err)
     }finally{
+        console.log('fechando a conexão com o banco...')
         await conn.close()
-        console.log('fechando conexao com o banco de dados')
     }
 }
 
-syncDataBase()
+sync()

@@ -1,30 +1,30 @@
-const {DataTypes} = require('sequelize')
-const db = require('../db/conn')
+const { DataTypes } = require('sequelize')
+const db = require("../db/conn")
 
 const Motorista = db.define('motorista',{
-    codMotorista:{
+    codMotorista: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    nome:{
-        type: DataTypes.STRING(100),
-        allowNull:false
+    nome: {
+        type: DataTypes.STRING(50),
+        allowNull: false
     },
-    cnh:{
+    CNH: {
         type: DataTypes.STRING(100),
-        allowNull:false
+        allowNull: false
     },
-    cpf:{
+    CPF: {
         type: DataTypes.STRING(100),
-        allowNull:false
+        allowNull: false
     },
-    telefone:{
-        type: DataTypes.STRING(100),
-        allowNull:false
+    telefone: {
+        type: DataTypes.STRING(11),
+        allowNull: false
     },
 },{
-    timestamps: false,
+    timestamps: false , 
     tableName: 'motoristas'
 })
 

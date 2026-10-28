@@ -1,38 +1,38 @@
-const {DataTypes} = require('sequelize')
-const db = require('../db/conn')
+const { DataTypes } = require('sequelize')
+const db = require("../db/conn")
 
 const Entrega = db.define('entrega',{
-    codEntrega:{
+    codEntrega: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    cidadeDestino:{
-        type: DataTypes.STRING(100),
-        allowNull:false
+    cidadeDestino: {
+        type: DataTypes.STRING(40),
+        allowNull: false
     },
-    statusAtual:{
+    status: {
         type: DataTypes.ENUM('ENTREGUE','TRANSITO'),
-        allowNull:false
+        allowNull: false
     },
-    data:{
+    data: {
         type: DataTypes.DATEONLY,
-        allowNull:false
+        allowNull: false
     },
-    hora:{
-        type: DataTypes.DATE,
-        allowNull:false
+    hora: {
+        type: DataTypes.TIME,
+        allowNull: false
     },
-    idCarga:{
+    idCarga: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references:{
-            model: 'cargas',
-            key: 'codCarga'
+        references: {
+            key: 'codCarga',
+            model: 'cargas'
         }
-    }
+    },
 },{
-    timestamps: false,
+    timestamps: false , 
     tableName: 'entregas'
 })
 
